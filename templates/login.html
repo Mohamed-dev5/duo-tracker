@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ side|capitalize }} login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login {{ side }}">
+  <form method="post" class="login-card">
+    <h1>{{ side|capitalize }} side</h1>
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
+    <input type="password" name="password" placeholder="Password" required autofocus>
+    <button type="submit">Enter</button>
+    <p class="switch">
+      {% if side == 'gojo' %}
+        <a href="{{ url_for('login', side='sukuna') }}">I'm on the Sukuna side</a>
+      {% else %}
+        <a href="{{ url_for('login', side='gojo') }}">I'm on the Gojo side</a>
+      {% endif %}
+    </p>
+  </form>
+</body>
+</html>

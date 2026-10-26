@@ -1,0 +1,125 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: #0d0d14;
+  color: #eee;
+}
+a { color: inherit; }
+button { font: inherit; cursor: pointer; }
+button:disabled { opacity: .4; cursor: not-allowed; }
+.error { color: #ff6b6b; min-height: 1.2em; margin: .3rem 0; }
+
+/* top bar */
+.topbar {
+  display: flex; justify-content: space-between;
+  padding: .7rem 1.2rem; background: #15151f; font-size: .9rem;
+}
+
+/* layout */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 340px) 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; }
+  .sources { order: 3; }
+}
+
+/* side panels */
+.side {
+  background: #161622; border-radius: 16px; padding: 1.2rem;
+  border: 2px solid transparent; text-align: center;
+}
+.side.gojo   { --accent: #4fc3f7; }
+.side.sukuna { --accent: #ff4d4d; }
+.side.mine   { border-color: var(--accent); box-shadow: 0 0 24px -8px var(--accent); }
+.side.locked { opacity: .92; }
+.side h2 { margin: .6rem 0 1rem; color: var(--accent); letter-spacing: .08em; }
+
+/* every image sits in the same fixed-size frame and is shown in full (no cropping).
+   Change --frame-height to make both frames taller or shorter. */
+.side { --frame-height: 380px; }
+.portrait img, .img-fallback {
+  width: 100%; height: var(--frame-height);
+  object-fit: contain; object-position: center;
+  background: #0d0d14; border-radius: 12px; display: block;
+}
+.img-fallback {
+  display: grid; place-items: center; font-size: 2rem; font-weight: 700;
+  background: #222233; color: var(--accent);
+}
+
+/* calendar */
+.calendar { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.day {
+  aspect-ratio: 1; border-radius: 8px; border: 1px solid #333348;
+  background: #1d1d2d; color: #ddd; font-weight: 600;
+}
+.day:hover { border-color: var(--accent); }
+.day.done { background: var(--accent); color: #000; border-color: var(--accent); }
+.day.selected { outline: 3px solid #fff; outline-offset: 1px; }
+.day-info { margin: .9rem 0; min-height: 1.4em; color: #bbb; }
+
+/* timer */
+.timer { background: #10101a; border-radius: 12px; padding: 1rem; }
+.clock { font-size: 2.4rem; font-variant-numeric: tabular-nums; font-weight: 700; }
+.timer-day { color: #999; font-size: .85rem; margin: .3rem 0 .8rem; }
+.buttons { display: flex; gap: .6rem; justify-content: center; }
+.buttons button {
+  padding: .5rem 1.4rem; border: none; border-radius: 8px;
+  background: var(--accent); color: #000; font-weight: 700;
+}
+.buttons .stop { background: #333348; color: #eee; }
+
+/* sources */
+.sources {
+  background: #161622; border-radius: 16px; padding: 1.2rem;
+  border: 2px solid #2a2a40;
+}
+.sources h2 { margin-top: 0; text-align: center; }
+#link-form { display: flex; flex-direction: column; gap: .5rem; }
+#link-form input {
+  padding: .6rem; border-radius: 8px; border: 1px solid #333348;
+  background: #0f0f18; color: #eee;
+}
+#link-form button {
+  padding: .6rem; border: none; border-radius: 8px;
+  background: #7c5cff; color: #fff; font-weight: 700;
+}
+#links { list-style: none; padding: 0; margin: 1rem 0 0; max-height: 420px; overflow: auto; }
+#links li {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .55rem .7rem; margin-bottom: .4rem; border-radius: 8px;
+  background: #1d1d2d; border-left: 4px solid #888;
+}
+#links li.gojo { border-left-color: #4fc3f7; }
+#links li.sukuna { border-left-color: #ff4d4d; }
+#links li a { flex: 1; word-break: break-word; }
+#links li small { color: #888; text-transform: capitalize; }
+#links li button { background: none; border: none; color: #ff6b6b; font-size: 1.2rem; }
+
+/* login */
+body.login { display: grid; place-items: center; min-height: 100vh; }
+body.login.gojo   { --accent: #4fc3f7; }
+body.login.sukuna { --accent: #ff4d4d; }
+.login-card {
+  background: #161622; padding: 2rem; border-radius: 16px; width: min(360px, 90vw);
+  display: flex; flex-direction: column; gap: .8rem; text-align: center;
+  border: 2px solid var(--accent);
+}
+.login-card h1 { margin: 0 0 .5rem; color: var(--accent); }
+.login-card input {
+  padding: .7rem; border-radius: 8px; border: 1px solid #333348;
+  background: #0f0f18; color: #eee;
+}
+.login-card button {
+  padding: .7rem; border: none; border-radius: 8px;
+  background: var(--accent); color: #000; font-weight: 700;
+}
+.login-card .switch { font-size: .85rem; margin: 0; }

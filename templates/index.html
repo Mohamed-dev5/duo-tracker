@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gojo vs Sukuna</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="main">
+  <header class="topbar">
+    <span>Logged in as <b>{{ me|capitalize }}</b></span>
+    <a href="{{ url_for('logout') }}">Log out</a>
+  </header>
+
+  <main class="layout">
+    {% for side in ['gojo'] %}
+    {% set mine = (side == me) %}
+    <section class="side {{ side }} {{ 'mine' if mine else 'locked' }}" data-side="{{ side }}" data-mine="{{ 'true' if mine else 'false' }}">
+      <div class="portrait">
+        <img src="{{ url_for('static', filename='img/' ~ side ~ '.jpg') }}" alt="{{ side }}"
+             onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-fallback',textContent:'{{ side|capitalize }}'}))">
+      </div>
+      <h2>{{ side|capitalize }}</h2>
+      <div class="calendar">
+        {% for d in days %}
+          <button type="button" class="day {{ 'done' if data[side].get(d|string) else '' }}" data-day="{{ d }}">{{ d }}</button>
+        {% endfor %}
+      </div>
+      <div class="day-info">Click a day to see time spent</div>
+      <div class="timer">
+        <div class="clock">00:00:00</div>
+        <div class="timer-day">{{ 'Pick a day, then start' if mine else 'View only' }}</div>
+        <div class="buttons">
+          <button type="button" class="start" {{ '' if mine else 'disabled' }}>Start</button>
+          <button type="button" class="stop" disabled>Stop</button>
+        </div>
+      </div>
+    </section>
+    {% endfor %}
+
+    <section class="sources">
+      <h2>Sources</h2>
+      <form id="link-form">
+        <input type="text" id="link-title" placeholder="Title (optional)" maxlength="80">
+        <input type="text" id="link-url" placeholder="https://..." required>
+        <button type="submit">Add</button>
+      </form>
+      <p id="link-error" class="error"></p>
+      <ul id="links"></ul>
+    </section>
+
+    {% for side in ['sukuna'] %}
+    {% set mine = (side == me) %}
+    <section class="side {{ side }} {{ 'mine' if mine else 'locked' }}" data-side="{{ side }}" data-mine="{{ 'true' if mine else 'false' }}">
+      <div class="portrait">
+        <img src="{{ url_for('static', filename='img/' ~ side ~ '.jpg') }}" alt="{{ side }}"
+             onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'img-fallback',textContent:'{{ side|capitalize }}'}))">
+      </div>
+      <h2>{{ side|capitalize }}</h2>
+      <div class="calendar">
+        {% for d in days %}
+          <button type="button" class="day {{ 'done' if data[side].get(d|string) else '' }}" data-day="{{ d }}">{{ d }}</button>
+        {% endfor %}
+      </div>
+      <div class="day-info">Click a day to see time spent</div>
+      <div class="timer">
+        <div class="clock">00:00:00</div>
+        <div class="timer-day">{{ 'Pick a day, then start' if mine else 'View only' }}</div>
+        <div class="buttons">
+          <button type="button" class="start" {{ '' if mine else 'disabled' }}>Start</button>
+          <button type="button" class="stop" disabled>Stop</button>
+        </div>
+      </div>
+    </section>
+    {% endfor %}
+  </main>
+
+  <script>
+    window.ME = {{ me|tojson }};
+    window.DAYS_DATA = {{ data|tojson }};
+  </script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
